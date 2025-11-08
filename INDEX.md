@@ -91,36 +91,43 @@ docker-compose up -d
 
 ## Documentation for Students
 
-The `README.md` contains:
-- Complete installation instructions
-- Database schema overview
-- Useful commands (container management, MySQL access)
-- Troubleshooting guide
-- Bonus task: CSV import setup
+- **README.md** Database overview and setup instructions
+- **SQL_REFERENCE.md** Quick reference with syntax patterns to adapt
 
 ## Sample Solutions for Trainers
 
-The file `queries-cheatsheet.sql` contains:
+The file `TRAINER_SOLUTIONS.sql` contains:
 - Sample solutions for all tasks
 - Alternative solution approaches
-- Bonus analyses
-- Common mistakes and tips
+- Common student mistakes
+- Teaching tips and intervention points
+- Time estimates per section
+- Notes on difficulty progression
 
 ## Quality Assurance
 
 ### Expected Results
 
 ```sql
--- Expected numbers after initialization:
-SELECT COUNT(*) FROM customers;  -- 100
-SELECT COUNT(*) FROM accounts;   -- 100
-SELECT COUNT(*) FROM trades;     -- ~600-650
+-- Basic (should complete independently):
+SELECT first_name, last_name 
+FROM customers 
+WHERE registration_date >= '2024-01-01'
+ORDER BY registration_date;
 
--- Task 1:
-SELECT COUNT(*) FROM customers WHERE registration_date >= '2024-01-01';  -- 25
+-- Intermediate (may need hints):
+SELECT status, COUNT(*) as count
+FROM customers
+GROUP BY status;
 
--- Task 2:
--- Michael Becker (customer_id = 5) with 38 trades in March 2024
+-- Advanced (guidance expected):
+SELECT c.first_name, c.last_name, COUNT(t.trade_id) as trades
+FROM customers c
+JOIN accounts a ON c.customer_id = a.customer_id
+JOIN trades t ON a.account_id = t.account_id
+WHERE YEAR(t.trade_date) = 2024
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY trades DESC;
 ```
 
 ## Customizations & Extensions
