@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  betatrade-db:
+    image: mysql:8.0
+    container_name: betatrade-mysql
+    restart: unless-stopped
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-betatrade}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-betatrade_db}
+      MYSQL_USER: ${MYSQL_USER:-admin}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-betatrade}
+    
+    ports:
+      - "3306:3306"
+    
+    volumes:
+      # Database persistence
+      - betatrade-data:/var/lib/mysql
+      # Initialization script executed on first start
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      # Optional: CSV import directory for bonus task
+      # - ./csv-import:/var/lib/mysql-files:rw
+    
+    networks:
+      - betatrade-network
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-betatrade}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  betatrade-data:
+    driver: local
+
+networks:
+  betatrade-network:
+    driver: bridge
