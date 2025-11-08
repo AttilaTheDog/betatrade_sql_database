@@ -29,20 +29,20 @@ This database simulates the customer management system of **BetaTrade AG**, a tr
 cd /home/studentxx/betatrade-database/
 ```
 
-1. **Start database**
+2. **Start database**
 
 ```bash
 docker-compose up -d
 ```
 
-1. **Check status**
+3. **Check status**
 
 ```bash
 docker-compose ps
 docker-compose logs betatrade-db
 ```
 
-1. **Test connection**
+4. **Test connection**
 
 ```bash
 docker exec -it betatrade-mysql mysql -uadmin -pbetatrade betatrade_db
@@ -228,5 +228,20 @@ IGNORE 1 ROWS;
 - All data is fictional
 - Default credentials must be changed before production use
 - Regular backups should be performed (part of learning objectives)
+
+**Teaching Approach**:
+- Tasks are structured progressively from easy to hard
+- Students should use `SQL_REFERENCE.md` and documentation
+- JOINs typically cause the most confusion - budget extra time
+- Part 7.2 (most active trader) may require assistance
+- Expect students to work slower than estimates
+- Encourage building queries incrementally (one clause at a time)
+
+**Assessment**:
+- Students should complete Parts 3-6 independently
+- Part 7.2 is acceptable with guidance
+- Bonus tasks are truly optional for fast learners
+
+See `TRAINER_SOLUTIONS.sql` for complete solutions and detailed teaching notes.
 
 ---
